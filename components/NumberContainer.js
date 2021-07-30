@@ -1,28 +1,20 @@
 import React from 'react';
-import { Text, StyleSheet, Button } from 'react-native';
+import { Text, StyleSheet, View } from 'react-native';
 
 import Card from './Card';
 import Colors from '../constants/Colors';
 
 const NumberContainer = props => {
     return (
-        <Card style={styles.container}>
-            <Text style={styles.textContainer}>You Selected</Text>
+        <View style={styles.container}>
             <Text style={styles.number}>{props.chosenNumber}</Text>
-            <Button title="START" color={Colors.primary} />
-        </Card>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         marginVertical: 20,
-        alignItems: 'center',
-        width: '80%'
-    },
-    textContainer: {
-        color: Colors.textColor,
-        fontSize: 15,
     },
     number: {
         marginVertical: 10,

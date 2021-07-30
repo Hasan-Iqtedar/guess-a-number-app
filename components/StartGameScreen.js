@@ -32,17 +32,23 @@ const StartGameScreen = props => {
         setSelectedNumber(num);
         setEnteredValue('');
         setConfirmed(true);
+        Keyboard.dismiss();
     }
 
     let startGame;
 
     if (confirmed) {
-        startGame = <NumberContainer chosenNumber={selectedNumber} />
+        startGame =
+            <Card style={styles.selectionScreen}>
+                <Text style={styles.textContainer}>You Selected</Text>
+                <NumberContainer chosenNumber={selectedNumber} />
+                <Button title="START" color={Colors.primary} onPress={() => props.onStartGame(selectedNumber)} />
+            </Card>
     }
 
     return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-            <View style={styles.gameScreen}>
+            <View style={styles.startGameScreen}>
                 <Text style={styles.title}>Start a new Game!</Text>
                 <Card style={styles.inputContainer}>
                     <Text>Select a Number</Text>
@@ -69,7 +75,7 @@ const StartGameScreen = props => {
 }
 
 styles = StyleSheet.create({
-    gameScreen: {
+    startGameScreen: {
         flex: 1,
         padding: 10,
         alignItems: 'center',
@@ -94,6 +100,15 @@ styles = StyleSheet.create({
         width: 50,
         marginVertical: 20,
     },
+    textContainer: {
+        color: Colors.textColor,
+        fontSize: 15,
+    },
+    selectionScreen: {
+        alignItems: 'center',
+        marginTop: 20,
+        width: '50%',
+    }
 });
 
 export default StartGameScreen;
