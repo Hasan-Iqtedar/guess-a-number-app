@@ -1,7 +1,6 @@
 import React from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 
-import Card from './Card';
 import Colors from '../constants/Colors';
 
 const NumberContainer = props => {
