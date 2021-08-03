@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Button, Image } from 'react-native';
 
 import Card from './Card';
+import CustomButton from './CustomButton';
 import Colors from '../constants/Colors';
 
 const GameOverScreen = props => {
@@ -12,10 +13,10 @@ const GameOverScreen = props => {
                 <Image source={require("../assets/success.png")} resizeMode="cover" style={styles.image} />
             </View>
             <Card >
-                <Text style={styles.summary}>The Number was: {props.selectedNumber} </Text>
-                <Text style={styles.summary}>Total guesses it took: {props.totalGuesses} </Text>
+                <Text style={styles.summary}>The Number was: <Text style={styles.result}>{props.selectedNumber}</Text> </Text>
+                <Text style={styles.summary}>Total guesses it took: <Text style={styles.result}>{props.totalGuesses}</Text> </Text>
                 <View style={styles.buttonContainer}>
-                    <Button title="Play Again" onPress={props.onRestart} color={Colors.secondary} />
+                    <CustomButton onClick={props.onRestart} >Play Again</CustomButton>
                 </View>
             </Card>
         </View>
@@ -52,7 +53,11 @@ const styles = StyleSheet.create({
         color: Colors.textColor,
     },
     buttonContainer: {
-        marginTop: 10
+        marginTop: 10,
+        alignItems: 'center'
+    },
+    result: {
+        color: Colors.secondary
     }
 });
 

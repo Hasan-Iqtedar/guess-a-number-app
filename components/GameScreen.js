@@ -1,8 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, Button, Alert } from 'react-native';
+import { View, Text, StyleSheet, Button, Alert, } from 'react-native';
+
+import { Ionicons } from '@expo/vector-icons';
 
 import Card from './Card';
 import NumberContainer from './NumberContainer';
+import CustomButton from './CustomButton';
 import Colors from '../constants/Colors';
 
 /**To make a guess of the number the user entered.*/
@@ -33,7 +36,7 @@ const GameScreen = props => {
 
     useEffect(() => {
         if (currentGuess == chosenNumber) {
-             
+
             onGameOver(rounds);
         }
     }, [currentGuess, chosenNumber, onGameOver, rounds]);
@@ -69,8 +72,12 @@ const GameScreen = props => {
             <Text style={styles.textContainer}>My Guess</Text>
             <NumberContainer chosenNumber={currentGuess} />
             <Card style={styles.buttonContainer}>
-                <Button title="LOWER" onPress={guessLower} />
-                <Button title="HIGHER" onPress={guessHigher} />
+                <CustomButton onClick={guessLower} style={styles.button}>
+                    <Ionicons name="md-remove" size={25}></Ionicons>
+                </CustomButton>
+                <CustomButton onClick={guessHigher} style={styles.button}>
+                    <Ionicons name="md-add" size={25} ></Ionicons>
+                </CustomButton>
             </Card>
         </View>
     );
@@ -84,13 +91,16 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'space-evenly',
         width: '80%'
     },
     textContainer: {
         color: Colors.textColor,
         fontSize: 25,
     },
+    button: {
+        width: 75,
+    }
 });
 
 export default GameScreen;
