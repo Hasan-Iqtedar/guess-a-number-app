@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, Button, Alert, } from 'react-native';
+import { View, Text, StyleSheet, Alert, FlatList, } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -21,13 +21,20 @@ const generateGuess = (max, min, exclude) => {
     else {
         return guess;
     }
-
 }
+
+const renderListItem = (length, data) => (
+    <View style={styles.listItem}>
+        <Text style={styles.guessColor}>Round: {length - data.index}</Text>
+        <Text style={styles.guessColor}>Guess: {data.item}</Text>
+    </View>
+)
 
 const GameScreen = props => {
 
-    const [currentGuess, setCurrentGuess] = useState(generateGuess(100, 1, props.chosenNumber));
-    const [rounds, setRounds] = useState(0);
+    const initialGuess = generateGuess(100, 1, props.chosenNumber);
+    const [currentGuess, setCurrentGuess] = useState(initialGuess);
+    const [guesses, setGuesses] = useState([initialGuess.toString()]);
 
     const min = useRef(1);
     const max = useRef(100);
@@ -36,10 +43,9 @@ const GameScreen = props => {
 
     useEffect(() => {
         if (currentGuess == chosenNumber) {
-
-            onGameOver(rounds);
+            onGameOver(guesses.length);
         }
-    }, [currentGuess, chosenNumber, onGameOver, rounds]);
+    }, [currentGuess, chosenNumber, onGameOver]);
 
     function guessLower() {
 
@@ -49,9 +55,10 @@ const GameScreen = props => {
         }
 
         max.current = currentGuess;
-        newGuess = generateGuess(max.current, min.current, currentGuess);
+        const newGuess = generateGuess(max.current, min.current, currentGuess);
         setCurrentGuess(newGuess);
-        setRounds(rounds => rounds + 1)
+        //setRounds(rounds => rounds + 1)
+        setGuesses((currentGuesses) => [newGuess.toString(), ...currentGuesses]);
     }
 
     const guessHigher = () => {
@@ -61,10 +68,10 @@ const GameScreen = props => {
             return;
         }
 
-        min.current = currentGuess
+        min.current = currentGuess + 1;
         const newGuess = generateGuess(max.current, min.current, currentGuess);
         setCurrentGuess(newGuess);
-        setRounds(rounds => rounds + 1)
+        setGuesses((currentGuesses) => [newGuess.toString(), ...currentGuesses]);
     }
 
     return (
@@ -79,6 +86,15 @@ const GameScreen = props => {
                     <Ionicons name="md-add" size={25} ></Ionicons>
                 </CustomButton>
             </Card>
+            <View style={styles.listContainer}>
+                <FlatList
+                    keyExtractor={item => item}
+                    data={guesses}
+                    renderItem={renderListItem.bind(this, guesses.length)}
+                    contentContainerStyle={styles.list}
+                />
+            </View>
+
         </View>
     );
 }
@@ -100,6 +116,29 @@ const styles = StyleSheet.create({
     },
     button: {
         width: 75,
+    },
+    listContainer: {
+        flex: 1,
+        width: '60%',
+        marginVertical: 20,
+    },
+    list: {
+      flexGrow: 1,
+      justifyContent: 'flex-end'
+    },
+    listItem: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+        marginVertical: 10,
+        width: '100%',
+        borderColor: 'black',
+        borderWidth: 1,
+        backgroundColor: Colors.primary,
+        height: 30
+    },
+    guessColor: {
+        color: 'white',
     }
 });
 
