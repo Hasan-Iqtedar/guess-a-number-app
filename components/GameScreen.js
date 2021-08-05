@@ -93,9 +93,9 @@ const GameScreen = props => {
     //For landscape orientation.
     if (detectedDeviceWidth > 400) {
         return (
-            <View style={styles.screen}>
+            <View style={styles.landscapeScreen}>
                 <Text style={styles.textContainer}>My Guess</Text>
-                <View style={styles.landscapeContainer}>
+                <View style={styles.landscapeButtonContainer}>
                     <CustomButton onClick={guessLower} style={styles.button}>
                         <Ionicons name="md-remove" size={25}></Ionicons>
                     </CustomButton>
@@ -147,12 +147,17 @@ const styles = StyleSheet.create({
         padding: 20,
         alignItems: 'center'
     },
+    landscapeScreen: {
+        flex: 1,
+        padding: 10,
+        alignItems: 'center'
+    },
     buttonContainer: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         width: '80%'
     },
-    landscapeContainer: {
+    landscapeButtonContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-evenly',
