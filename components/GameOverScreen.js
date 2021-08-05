@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Button, Image } from 'react-native';
+import { View, Text, StyleSheet, Button, Image, Dimensions, ScrollView } from 'react-native';
 
 import Card from './Card';
 import CustomButton from './CustomButton';
@@ -7,6 +7,7 @@ import Colors from '../constants/Colors';
 
 const GameOverScreen = props => {
     return (
+        <ScrollView>
         <View style={styles.screen}>
             <Text style={styles.title}>Game Over</Text>
             <View style={styles.imageContainer}>
@@ -20,6 +21,7 @@ const GameOverScreen = props => {
                 </View>
             </Card>
         </View>
+        </ScrollView>
     );
 }
 
@@ -31,13 +33,13 @@ const styles = StyleSheet.create({
         padding: 20
     },
     imageContainer: {
-        width: 300,
-        height: 300,
+        width: Dimensions.get('window').width * 0.7,
+        height: Dimensions.get('window').width * 0.7,
         borderWidth: 1,
         borderColor: 'black',
-        borderRadius: 150,
+        borderRadius: Dimensions.get('window').width * 0.7 / 2,
         overflow: 'hidden',
-        marginVertical: 10,
+        marginVertical: 30,
     },
     image: {
         width: '100%',
