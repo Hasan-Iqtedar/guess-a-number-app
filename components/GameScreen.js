@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, Alert, FlatList, Dimensions, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Alert, FlatList, Dimensions } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -23,6 +23,7 @@ const generateGuess = (max, min, exclude) => {
     }
 }
 
+/**To render past gusses in a list format.*/
 const renderListItem = (length, data) => (
     <View style={styles.listItem}>
         <Text style={styles.guessColor}>Round: {length - data.index}</Text>
@@ -34,10 +35,14 @@ const GameScreen = props => {
 
     const initialGuess = generateGuess(100, 1, props.chosenNumber);
     const [currentGuess, setCurrentGuess] = useState(initialGuess);
+
+    //Array List of past gussess.
     const [guesses, setGuesses] = useState([initialGuess.toString()]);
+
     const [detectedDeviceWidth, setDetectedDeviceWidth] = useState(Dimensions.get('window').width)
-    const min = useRef(1);
-    const max = useRef(100);
+
+    const min = useRef(1);//Current min value.
+    const max = useRef(100);//Current max value.
 
     const { chosenNumber, onGameOver } = props;
 
@@ -48,7 +53,6 @@ const GameScreen = props => {
     }, [currentGuess, chosenNumber, onGameOver]);
 
     useEffect(() => {
-
         const updateLayout = () => {
             setDetectedDeviceWidth(Dimensions.get('window').width);
         }
@@ -58,11 +62,10 @@ const GameScreen = props => {
         return () => {
             Dimensions.removeEventListener('change', updateLayout);
         }
+    });
 
-    })
-
+    /**To make a guess lower than the current guess.*/
     function guessLower() {
-
         if (props.chosenNumber > currentGuess) {
             Alert.alert("Don't Cheat", "Please provide the correct hint", [{ text: 'Okay', style: 'destructive' }]);
             return;
@@ -74,8 +77,8 @@ const GameScreen = props => {
         setGuesses((currentGuesses) => [newGuess.toString(), ...currentGuesses]);
     }
 
+    /**To make a guess higher than the current guess.*/
     const guessHigher = () => {
-
         if (props.chosenNumber < currentGuess) {
             Alert.alert("Don't Cheat", "Please provide the correct hint", [{ text: 'Okay', style: 'destructive' }]);
             return;
@@ -87,31 +90,33 @@ const GameScreen = props => {
         setGuesses((currentGuesses) => [newGuess.toString(), ...currentGuesses]);
     }
 
+    //For landscape orientation.
     if (detectedDeviceWidth > 400) {
         return (
-                <View style={styles.screen}>
-                    <Text style={styles.textContainer}>My Guess</Text>
-                    <View style={styles.landscapeContainer}>
-                        <CustomButton onClick={guessLower} style={styles.button}>
-                            <Ionicons name="md-remove" size={25}></Ionicons>
-                        </CustomButton>
-                        <NumberContainer chosenNumber={currentGuess} />
-                        <CustomButton onClick={guessHigher} style={styles.button}>
-                            <Ionicons name="md-add" size={25} ></Ionicons>
-                        </CustomButton>
-                    </View>
-                    <View style={styles.listContainer}>
-                        <FlatList
-                            keyExtractor={item => item}
-                            data={guesses}
-                            renderItem={renderListItem.bind(this, guesses.length)}
-                            contentContainerStyle={styles.list}
-                        />
-                    </View>
+            <View style={styles.screen}>
+                <Text style={styles.textContainer}>My Guess</Text>
+                <View style={styles.landscapeContainer}>
+                    <CustomButton onClick={guessLower} style={styles.button}>
+                        <Ionicons name="md-remove" size={25}></Ionicons>
+                    </CustomButton>
+                    <NumberContainer chosenNumber={currentGuess} />
+                    <CustomButton onClick={guessHigher} style={styles.button}>
+                        <Ionicons name="md-add" size={25} ></Ionicons>
+                    </CustomButton>
                 </View>
+                <View style={styles.listContainer}>
+                    <FlatList
+                        keyExtractor={item => item}
+                        data={guesses}
+                        renderItem={renderListItem.bind(this, guesses.length)}
+                        contentContainerStyle={styles.list}
+                    />
+                </View>
+            </View>
         );
     }
 
+    //For portrait orientation.
     return (
         <View style={styles.screen}>
             <Text style={styles.textContainer}>My Guess</Text>

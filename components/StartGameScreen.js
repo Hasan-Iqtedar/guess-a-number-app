@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Button, Text, StyleSheet, TouchableWithoutFeedback, Keyboard, Alert, Dimensions, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { View, Button, Text, StyleSheet, TouchableWithoutFeedback, Keyboard, Alert, ScrollView, KeyboardAvoidingView } from 'react-native';
 
 import Card from './Card';
 import Input from './Input';
@@ -9,19 +9,28 @@ import Colors from '../constants/Colors';
 
 const StartGameScreen = props => {
 
+    //The number entered in the input field.
     const [enteredValue, setEnteredValue] = useState('');
+    //To confirm entered value through confirm button.
     const [confirmed, setConfirmed] = useState(false);
+    
     const [selectedNumber, setSelectedNumber] = useState();
 
+    /**To clean and set the input value. */
     const setInput = (inputText) => {
+        //Removing any non-digit characters.
         setEnteredValue(inputText.replace(/[^0-9]/g, ''));
     }
 
+    /**To reset the input and clear confirmation.*/
     const resetInput = () => {
         setEnteredValue('');
         setConfirmed(false);
     }
 
+    /**To validate that the number entered is between 1 and 99 and 
+     * to alert the user otherwise.
+    */
     const confirmInput = () => {
         num = parseInt(enteredValue);
         if (isNaN(num) || num <= 0 || num > 99) {
@@ -36,6 +45,7 @@ const StartGameScreen = props => {
         Keyboard.dismiss();
     }
 
+    //To display the start button after confirmation.
     let startGame;
 
     if (confirmed) {
@@ -99,6 +109,7 @@ styles = StyleSheet.create({
     title: {
         fontSize: 20,
         marginVertical: 10,
+        color: Colors.textColor
     },
     input: {
         width: 50,

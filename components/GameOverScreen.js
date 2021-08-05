@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Button, Image, Dimensions, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, ScrollView } from 'react-native';
 
 import Card from './Card';
 import CustomButton from './CustomButton';
@@ -17,7 +17,7 @@ const GameOverScreen = props => {
                 <Text style={styles.summary}>The Number was: <Text style={styles.result}>{props.selectedNumber}</Text> </Text>
                 <Text style={styles.summary}>Total guesses it took: <Text style={styles.result}>{props.totalGuesses}</Text> </Text>
                 <View style={styles.buttonContainer}>
-                    <CustomButton onClick={props.onRestart} >Play Again</CustomButton>
+                    <CustomButton onClick={props.onRestart}>Play Again</CustomButton>
                 </View>
             </Card>
         </View>
